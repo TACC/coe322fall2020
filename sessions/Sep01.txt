@@ -1,0 +1,113 @@
+[eijkhout@isp02 ~]$ hostname
+isp02.tacc.utexas.edu
+[eijkhout@isp02 ~]$ fg
+emacs zero.cc
+[eijkhout@isp02 ~]$ icpc -o zeroprogram zero.cc
+[eijkhout@isp02 ~]$ mkdir zero_session
+[eijkhout@isp02 ~]$ mv zero.cc !$
+mv zero.cc zero_session
+[eijkhout@isp02 ~]$ cd !$
+cd zero_session
+[eijkhout@isp02 zero_session]$ clear
+[eijkhout@isp02 zero_session]$ ls
+zero.cc
+[eijkhout@isp02 zero_session]$ icpc -o zeroprogram zero.cc
+[eijkhout@isp02 zero_session]$ ls
+zero.cc  zeroprogram
+[eijkhout@isp02 zero_session]$ ./zeroprogram
+[eijkhout@isp02 zero_session]$ cat zero.cc
+#include <iostream>
+using std::cout;
+using std::endl;
+
+int main() {
+  return 0;
+}
+// this is a comment. do not copy
+//
+// when you are done typing, you need to save your file
+// C-x C-s
+// and then exit emacs:
+// C-x C-c
+[eijkhout@isp02 zero_session]$ emacs zero.cc
+[eijkhout@isp02 zero_session]$ icpc -o zeroprogram zero.cc
+[eijkhout@isp02 zero_session]$ ./zeroprogram
+hello world!
+[eijkhout@isp02 zero_session]$ ls
+zero.cc  zero.cc~  zeroprogram
+[eijkhout@isp02 zero_session]$ !e
+emacs zero.cc
+
+[1]+  Stopped                 emacs zero.cc
+[eijkhout@isp02 zero_session]$ !ic
+icpc -o zeroprogram zero.cc
+zero.cc(2): error: namespace-qualified name is required
+  using std:cout;
+        ^
+
+zero.cc(2): error: expected a ";"
+  using std:cout;
+           ^
+
+zero.cc(6): error: identifier "cout" is undefined
+    cout << "hello world!" << endl;
+    ^
+File Edit Options Buffers Tools C++ Help
+#include <iostream>
+using std::cout;
+using std::endl;
+
+int main() {
+  cout << "hello world!" ;
+  cout << "hello world!" << endl;
+  return 0;
+}
+// this is a comment. do not copy
+//
+// when you are done typing, you need to save your file
+// C-x C-s
+// and then exit emacs:
+// C-x C-c
+
+
+
+
+
+
+
+
+-UU-:----F1  zero.cc        All L6     (C++/l Abbrev) ------------------------------------------
+
+[1]+  Stopped                 emacs zero.cc
+[eijkhout@isp02 zero_session]$ icpc -o zeroprogram zero.cc
+[eijkhout@isp02 zero_session]$ ./zeroprogram
+hello world!hello world!
+[eijkhout@isp02 zero_session]$ fg
+emacs zero.cc
+
+[1]+  Stopped                 emacs zero.cc
+[eijkhout@isp02 zero_session]$ ls
+zero.cc  zero.cc~  zeroprogram
+[eijkhout@isp02 zero_session]$ rm zero.cc~
+[eijkhout@isp02 zero_session]$ ls
+zero.cc  zeroprogram
+[eijkhout@isp02 zero_session]$ fg
+emacs zero.cc
+
+[1]+  Stopped                 emacs zero.cc
+[eijkhout@isp02 zero_session]$ cp zero.cc always.cc
+[eijkhout@isp02 zero_session]$ emacs !$
+emacs always.cc
+[eijkhout@isp02 zero_session]$ cat always.cc
+#include <iostream>
+using std::cout;
+using std::endl;
+
+int main() {
+  return 0;
+}
+[eijkhout@isp02 zero_session]$ cp always.cc homework.cc
+[eijkhout@isp02 zero_session]$
+Session Contents Restored on Sep 1, 2020 at 9:15 PM
+Last login: Tue Sep  1 21:14:40 on console
+Victors-iMac-2020:lectures victoreijkhout$
