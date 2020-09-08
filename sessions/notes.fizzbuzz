@@ -12,6 +12,20 @@
    }
 
 ################################################################
+#### a little bit better
+
+    if ((val % 3 == 0) && (val % 5 == 0)) {
+        cout << "Fizzbuzz!" << endl;
+    }
+    else if (val % 3 == 0) {
+        cout << "Fizz!" << endl;
+    }
+    else if (val % 5 == 0) {
+        cout << "Buzz!" << endl;
+    }
+
+
+################################################################
 #### slightly less elegant
 
   if (i%3 == 0)
