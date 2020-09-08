@@ -31,7 +31,30 @@
     }
 
 ################################################################
-#### optimal
+#### why?!
+
+  if (i%3 == 0)
+    {
+      if(i%5 ==0)
+        {
+         cout << "Fizzbuzz!" << endl;
+        }
+      else
+        {
+          cout << "Fizz!" << endl;
+        }
+    }
+  else if (i%5 == 0)
+    {
+      cout << "Buzz!" << endl;
+    }
+  else
+    {
+      return 0;
+    }
+
+################################################################
+#### optimal!
 
   bool divisible3 = (input%3 == 0);
   bool divisible5 = (input%5 == 0);
