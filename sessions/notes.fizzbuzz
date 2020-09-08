@@ -1,5 +1,5 @@
 ################################################################
-#### vanilly solution
+#### vanilla solution
 
    if (integer%5==0 && integer%3!=0) {
      cout << "Buzz!" << endl;
