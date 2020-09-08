@@ -1,0 +1,45 @@
+################################################################
+#### vanilly solution
+
+   if (integer%5==0 && integer%3!=0) {
+     cout << "Buzz!" << endl;
+   }
+    if (integer%3==0 && integer%5!=0) {
+     cout << "Fizz!" << endl;
+    }
+  if (integer%3==0 && integer%5==0) {
+    cout << "Fizzbuzz!" << endl;
+   }
+
+################################################################
+#### slightly less elegant
+
+  if (i%3 == 0)
+    {
+      if(i%5 ==0)
+        {
+         cout << "Fizzbuzz!" << endl;
+        }
+      else
+        {
+          cout << "Fizz!" << endl;
+        }
+    }
+  else if (i%5 == 0)
+    {
+      cout << "Buzz!" << endl;
+    }
+
+################################################################
+#### optimal
+
+  bool divisible3 = (input%3 == 0);
+  bool divisible5 = (input%5 == 0);
+
+  if(divisible3 && divisible5)
+    cout << "Fizzbuzz!" << endl;
+  else if(divisible3)
+    cout << "Fizz!" << endl;
+  else if(divisible5)
+    cout << "Buzz!" << endl;
+
