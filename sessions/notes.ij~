@@ -1,0 +1,18 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% this does the job
+
+    int minSum = 20;
+    int minI, minJ;
+
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            if (i * j > N) {
+                if ((i + j) < minSum) {
+                    minSum = i + j;
+                    minI = i;
+                    minJ = j;
+                }
+            }
+        }
+    }
+
