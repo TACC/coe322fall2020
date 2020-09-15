@@ -1,0 +1,118 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% Part 1
+%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%
+%%%% cool.
+
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            if (i * j > N) {
+                firstI = i;
+                firstJ = j;
+                breakLoop = true;
+                break;
+            }
+        }
+        if (breakLoop) {
+            break;
+        }
+    }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% without break
+
+  bool stoptest{false};
+
+  for (i = 1; !stoptest ; i++) {
+
+    for (j = 1; j < 10 && !stoptest; j++) {
+
+      if (i * j > n)
+        stoptest = true;
+
+    }
+
+  }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% this is a hack
+
+  for (int i = 0; i < 10; i++){
+    for (int j = 0; j < 10; j++){
+      if (i*j > N){ //simple condition that we set for our program
+        cout << i << "," << j << endl;
+        i = 11; //outer loop break
+        break; //inner loop break
+      }
+    }
+  }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% please don't
+
+  for(i = 0; i <= 9; i++){
+      for(j = 0; j <= 9; j++){
+        if(i*j > N) {
+          goto finish1;
+  }}}
+ finish1:
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% Part 1
+%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% this does the job
+
+    int minSum = 20;
+    int minI, minJ;
+
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            if (i * j > N) {
+                if ((i + j) < minSum) {
+                    minSum = i + j;
+                    minI = i;
+                    minJ = j;
+                }
+            }
+        }
+    }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% elegant
+
+  // loop over sums low to high
+  for(int sum = i_min + j_min; sum < i_max + j_max; sum++){
+
+    //iterating through i range
+    for(int i = i_min; i < i_max; i++){
+
+      // j is the coordinate that adds up with i to sum
+      int j = sum - i;
+
+      //breaking loop if j is negative
+      if(j < 0){break;}
+
+      if(i*j > n){
+
+        // solution found
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% consider the complexity
+
+    for(int sum=0; sum<=18; sum++){
+        for(int i=0; i<10; i++){
+            for(int j=0; j<10; j++){
+                if(sum == i+j and i*j > N){
+                    cout << i << "," << j << endl;
+                    return 0;
+                }
+                }
+            }
+        }
+
