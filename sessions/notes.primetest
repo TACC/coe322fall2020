@@ -1,0 +1,128 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% minimal. good
+
+bool test_if_prime(int in){
+  for(int i = 2;i<in;i++){
+    if(in%i == 0){
+      return false;
+    }
+  }
+  return true;
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% sanity test. always wise
+
+bool test_if_prime(int num) {
+  if (num <= 1) {
+    return false;
+  }
+
+  for (int i = 2; i < num; i++) {
+    if (num % i == 0) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% global variable. please don't
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int c;//counter
+bool test_if_prime(int n){ //function starts here
+  for (c = 2; c <= n/2; c++){
+    if(n%c == 0){
+      return false;
+    }
+  }
+  return true;
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% strange indentation. Let me fix that for you.
+
+bool test_if_prime(int num) {
+  bool test_if_prime;
+  /* The for loop below is testing for whether or not
+     a number is prime. For num>=10 it is really
+     only necessary to test up to num/2 */
+  for (int i=2; i<=num; i++) {
+    /*starting loop at i=2 because a number being divisble by
+      does not prove that it is not prime*/
+    if (num==2) {
+      test_if_prime = true;
+      break;
+    }
+    if (num==i) {
+      break;
+    }
+  if (num%i==0) {
+    test_if_prime = false;
+    break; // break out of loop once determined number is not prime
+  } else {
+    test_if_prime = true;
+  }
+  }
+  return test_if_prime;
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% another level of abstraction: remove detail from the main
+
+void print_prime(int how_many) {
+  int counter = 0, i = 0;
+  do {
+    if (test_if_prime(i)) {
+      cout << i << endl;
+      counter++;
+    }
+    i++;
+  } while (counter < how_many);
+}
+
+int main() {
+
+  int how_many;
+  cin >> how_many;
+  print_prime(how_many);
+
+  return 0;
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% what do you think of this?
+
+void test_if_prime(int how_many){
+
+  int manyCounter = 0;
+  bool stoptest = 0;
+
+  for(int i = 2; !stoptest; i++){
+    bool isprime = true;
+    for(int j = (i - 1); j>= 2; j--){
+      if(i % j == 0){
+        isprime = false;
+      }
+    }
+    if(isprime) {
+      cout << i << endl;
+      manyCounter++;
+    }
+    if(manyCounter == how_many){
+      break;
+    }
+  }
+}
+
+int main(){
+  int n;
+  cin >> n;
+  test_if_prime(n);
+  return 0;
+}
