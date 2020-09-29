@@ -1,0 +1,91 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% good struct and function
+
+struct primesequence {
+    int num_primes_found; int last_num_tested;
+};
+
+int nextprime(struct primesequence &seq) {
+    int counter = seq.last_num_tested + 1;
+    while (!isprime(counter)) {
+        counter++;
+    }
+    seq.num_primes_found++;
+    seq.last_num_tested = counter;
+    return counter;
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% good main
+
+  struct primesequence sequence;
+  sequence.num_primes_found=0;
+  sequence.how_many=1; //use reference from nextprime function
+
+  while (sequence.num_primes_found < nprimes){
+    int number = nextprime(sequence);
+    cout << "Number " << number << " is prime" << endl;
+
+ }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% also good main
+
+  struct primesequence sequence = {0.,2.};
+  while (sequence.number_of_primes_found<nprimes){
+  sequence = nextprime(sequence);
+  cout << "Number " << sequence.last_number_tested << " is prime" << endl;
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% slightly strange main
+
+int main() {
+        int nprimes, number = 2, w;
+        cin >> nprimes;
+        while (sequence.number_of_primes_found < nprimes) {
+                w = test_if_prime(number);
+                if (w != 0)
+                        cout << w << endl;
+                number++;
+        }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% main does not hide details as asked.
+
+  while(sequence.number_of_primes_found<nprimes){
+    int number = nextprime(sequence.number_of_primes_found,
+                           sequence.last_number_tested);
+    cout << "Number " << number << " is prime" << endl;
+    sequence.number_of_primes_found++;
+  }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Hm.
+
+struct primesequence nextprime(struct primesequence sequence)
+{
+  int lastprime = sequence.last_number_tested;
+  if(sequence.last_number_tested == lastprime && sequence.number_of_primes_found >= 1 )
+    {
+      sequence.last_number_tested = sequence.last_number_tested+1;
+    }
+  bool isprime = false;
+  while(isprime ==false)
+  {
+    isprime = test_if_prime(sequence.last_number_tested);
+    if(isprime == false)
+     {
+        sequence.last_number_tested = sequence.last_number_tested+1;
+     }
+  }
+   if(isprime)
+   {
+    sequence.number_of_primes_found = sequence.number_of_primes_found+1;
+    lastprime = sequence.last_number_tested;
+    return(sequence);
+   }
+}
+
