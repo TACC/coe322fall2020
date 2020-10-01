@@ -1,0 +1,9 @@
+  struct primesequence sequence;
+  sequence.num_primes_found=0;
+  sequence.how_many=1; //use reference from nextprime function
+
+  while (sequence.num_primes_found < nprimes){
+    int number = nextprime(sequence);
+    cout << "Number " << number << " is prime" << endl;
+
+ }
