@@ -1,0 +1,116 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% This is it, pretty much
+
+int main () {
+  int upper; //upper bound you are testing until
+  cout << "Enter an even number: ";
+  cin >> upper;
+  for(int e = 2; e<=upper; e = e+2){
+    primegenerator sequence;
+    while (sequence.get_last_number_tested()<e){
+      int q = e - sequence.nextprime();
+           if(test_prime(q)){
+        cout << "The number entered: " << e << "is" << sequence.get_last_number_tested() << "+" << q << endl; // e=P+Q
+        break;
+      }
+    }
+  }
+  return 0;
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% not entirely
+
+  int i;
+  i = 4;
+  for (int i=4; i<=bound; i+2) {
+    Goldbach_conjecture gc(i);
+    int p;
+    p = gc.goldbach();
+    int q;
+    q = i-p;
+    cout << "The number " << i << " is " << p << " + " << q << endl;
+    i=i+2;
+  }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% ok, we didn't explicitly specify OO
+
+int main() {
+    int upper_bound;
+    cin >> upper_bound;
+
+    for (int i = 4; i <= upper_bound; i += 2) {
+        bool sum_found = false;
+        int index = 2;
+        while (!sum_found) {
+            if (is_prime(index)) {
+                if (is_prime(i - index)) {
+                    sum_found = true;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% No. Really: No. I mean, No!
+
+class Primecheck {
+public:
+        int e, q;
+        int p[100];
+}ob;
+
+int main() {
+        cin >> ob.e;
+        if (ob.e % 2 == 0) {
+                int i = 2, count, prime = 0;
+                for (int j = 2; j <= ob.e; j++) {
+                        count = 0;
+                        for (int q = 1; q <= j; q++) {
+                                if (j % q == 0) {
+                                        count++;
+                                }
+                        }
+                        if (count == 2) {
+                                ob.p[prime] = j;
+                                prime++;
+                        }
+                }
+                for (int i = 0; i < prime; i++) {
+                        count = 0;
+                        ob.q = ob.e - ob.p[i];
+                        for (int j = 1; j <= ob.q; j++) {
+                                if (ob.q % j == 0) {
+                                        count++;
+                                }
+                        }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% Truth in advertising?
+
+class primegenerator{
+private:
+  int e, p, q;
+public:
+  primegenerator(int e): e(e) { p = 2; q = e - p; };
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% Bad naming
+
+class Goldbach{
+private:
+  int x;
+public:
+  Goldbach(int in_n) : x(in_n) {};
+  bool test_if_prime(int a){
+    for (int i = 2; i < a; i++){
+      if(a == 2){
+        return false;
+      } else if (a % i == 0){
+        return false;
+      }
+    }
+    return true;
+  }
+  void subtraction(int x){
+
