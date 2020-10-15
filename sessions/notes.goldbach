@@ -53,13 +53,17 @@ int main() {
 %%%%%%%%%%%%%%%% No. Really: No. I mean, No!
 
 class Primecheck {
-public:
+public: // 2. Do not make data members public.
         int e, q;
-        int p[100];
-}ob;
+        int p[100]; // 4. We didn't teach you this, for a reason.
+                    //    This program bombs if you have an upper bound over 100
+                    // 5. There is no need to store an array: generate number on the fly.
+        // 3. There are no methods. This class doesn't do anything.
+        //    Go back to the slides: "What is the functionality that a class supports"
+} ob;  // 1. This introduces a global object. Bad practice!
 
 int main() {
-        cin >> ob.e;
+        cin >> ob.e;  // See? here it uses the global object.
         if (ob.e % 2 == 0) {
                 int i = 2, count, prime = 0;
                 for (int j = 2; j <= ob.e; j++) {
