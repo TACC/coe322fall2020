@@ -1,0 +1,701 @@
+Last login: Thu Oct 29 08:43:20 on ttys003
+VictorsiMac2020:~ victoreijkhout$ ssh eijkhout@isp.tacc.utexas.edu
+eijkhout@isp.tacc.utexas.edu's password:
+Last login: Wed Oct 28 11:29:25 2020 from 108-248-87-246.lightspeed.austtx.sbcglobal.net
+------------------------------------------------------------------------------
+Welcome to the Texas Advanced Computing Center
+   at The University of Texas at Austin
+
+** Unauthorized use/access is prohibited. **
+
+If you log on to this computer system, you acknowledge your awareness
+of and concurrence with the UT Austin Acceptable Use Policy. The
+University will prosecute violators to the full extent of the law.
+
+TACC Usage Policies:
+http://www.tacc.utexas.edu/user-services/usage-policies/
+
+TACC Support:
+https://portal.tacc.utexas.edu/tacc-consulting
+
+------------------------------------------------------------------------------
+Intel(R) Parallel Studio XE 2017 Update 1 for Linux*
+Copyright (C) 2009-2016 Intel Corporation. All rights reserved.
+[eijkhout@isp02 ~]$ ls
+coe322fall2020    hpc-book-private           isp2019studentrepo  readthis           zeroprogram
+empty.doc         intel                      isptesting          stcscriptsRECOVER  zero_session
+empty.pdf         intro-programming-private  projects2017fall    testing
+extract_projects  isp2019fall                projects2018fall    unixdemo
+foo.txt           isp2019fall_projects       projects2019        zero.cc~
+[eijkhout@isp02 ~]$ cd coe322fall2020/studentrepo/sessions/
+[eijkhout@isp02 sessions]$ git pull
+remote: Enumerating objects: 22, done.
+remote: Counting objects: 100% (22/22), done.
+remote: Compressing objects: 100% (7/7), done.
+remote: Total 18 (delta 14), reused 15 (delta 11), pack-reused 0
+Unpacking objects: 100% (18/18), done.
+From https://github.com/TACC/coe322fall2020
+   f3c274b..d7b91c4  master     -> origin/master
+Updating f3c274b..d7b91c4
+Fast-forward
+ EijkhoutIntroSciProgramming-book.pdf       | Bin 5962016 -> 5969344 bytes
+ lectures/10F Fortran OOP.pdf               | Bin 0 -> 525717 bytes
+ lectures/14F Arrays.pdf                    | Bin 0 -> 1036434 bytes
+ lectures/15 CPointers.pdf                  | Bin 1506647 -> 1506647 bytes
+ lectures/15F Pointers.pdf                  | Bin 0 -> 566286 bytes
+ lectures/4F Statements and expressions.pdf | Bin 0 -> 565826 bytes
+ lectures/5F Conditionals.pdf               | Bin 0 -> 528864 bytes
+ lectures/6F Looping.pdf                    | Bin 0 -> 507723 bytes
+ lectures/7F Functions.pdf                  | Bin 0 -> 544510 bytes
+ lectures/8F Input-output.pdf               | Bin 0 -> 541063 bytes
+ lectures/9F Types.pdf                      | Bin 0 -> 530058 bytes
+ 11 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 lectures/10F Fortran OOP.pdf
+ create mode 100644 lectures/14F Arrays.pdf
+ create mode 100644 lectures/15F Pointers.pdf
+ create mode 100644 lectures/4F Statements and expressions.pdf
+ create mode 100644 lectures/5F Conditionals.pdf
+ create mode 100644 lectures/6F Looping.pdf
+ create mode 100644 lectures/7F Functions.pdf
+ create mode 100644 lectures/8F Input-output.pdf
+ create mode 100644 lectures/9F Types.pdf
+[eijkhout@isp02 sessions]$ emacs addr.c
+[eijkhout@isp02 sessions]$ emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ icpc -o addr addr.cxx
+[eijkhout@isp02 sessions]$ ./addr
+address: 0x7ffc800f48b4
+value  : 7
+[eijkhout@isp02 sessions]$ cat addr.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+int main() {
+  int i;
+  int *addr_of_i;
+  addr_of_i = &i;
+  i = 7;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ icpc -o addr addr.cxx && ./addr
+address: 0x7ffd7f72eae4
+value  : 7
+address: 0x7ffd7f72eae4
+value  : 8
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ icpc -o addr addr.cxx && ./addr
+address: 0x7ffefd9511b4
+value  : 7
+address: 0x7ffefd9511b4
+value  : 8
+address: 0x7ffefd9511b8
+value  : -40562248
+[eijkhout@isp02 sessions]$ !cat
+cat addr.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+int main() {
+  int i;
+  int *addr_of_i;
+  addr_of_i = &i;
+  i = 7;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+  i++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+
+  // WRONG
+  addr_of_i++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ cat addr.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+int main() {
+  int i;
+  int *addr_of_i;
+  addr_of_i = &i;
+  i = 7;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+  i++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+
+  // RIGHT
+  *addr_of_i++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+
+  // WRONG
+  addr_of_i++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ !ic
+icpc -o addr addr.cxx && ./addr
+address: 0x7ffd995092c4
+value  : 7
+address: 0x7ffd995092c4
+value  : 8
+address: 0x7ffd995092c8
+value  : -1722772792
+address: 0x7ffd995092cc
+value  : 32765
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ !cat
+cat addr.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+int main() {
+  int i;
+  int *addr_of_i;
+  addr_of_i = &i;
+File Edit Options Buffers Tools C++ Help
+#include <iostream>
+using std::cout;
+using std::endl;
+
+int main() {
+  int i;
+  int *addr_of_i;
+  addr_of_i = &i;
+  i = 7;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+  i++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+
+  // RIGHT
+  (*addr_of_i)++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+
+  /*
+  // WRONG
+  addr_of_i++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+  */
+
+  // higher knowledge:
+  int **addr_of_addr = &add_of_i;
+-UUU:**--F1  addr.cxx       Top L29    (C++/l Abbrev) ----------------------------------------------------
+File Edit Options Buffers Tools C++ Help
+#include <iostream>
+using std::cout;
+using std::endl;
+
+int main() {
+  int i;
+  int *addr_of_i;
+  addr_of_i = &i;
+  i = 7;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+  i++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+
+  // RIGHT
+  (*addr_of_i)++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+
+  /*
+  // WRONG
+  addr_of_i++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+  */
+
+  // higher knowledge:
+  int **addr_of_addr = &add_of_i;
+-UUU:**--F1  addr.cxx       Top L13    (C++/l Abbrev) ----------------------------------------------------
+File Edit Options Buffers Tools C++ Help
+#include <iostream>
+using std::cout;
+using std::endl;
+
+int main() {
+  int i;
+  int *addr_of_i;
+  addr_of_i = &i;
+  i = 7;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+  i++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+
+  // RIGHT
+  (*addr_of_i)++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+
+  /*
+  // WRONG
+  addr_of_i++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+  */
+
+  // higher knowledge:
+  int **addr_of_addr = &add_of_i;
+-UUU:**--F1  addr.cxx       Top L5     (C++/l Abbrev) ----------------------------------------------------
+File Edit Options Buffers Tools C++ Help
+int main() {
+  int i;
+  i = 7;
+
+  return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-UUU:**--F1  cfunc.cxx      Bot L8     (C++/l Abbrev) ----------------------------------------------------
+  i = 7;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+  i++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+
+  // RIGHT
+  (*addr_of_i)++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+
+  // WRONG
+  addr_of_i++;
+  cout << "address: " << addr_of_i << endl;
+  cout << "value  : " << *addr_of_i << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ !ic
+icpc -o addr addr.cxx && ./addr
+address: 0x7ffc498b1e64
+value  : 7
+address: 0x7ffc498b1e64
+value  : 8
+address: 0x7ffc498b1e64
+value  : 9
+address: 0x7ffc498b1e68
+value  : 1233854056
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ !ic:s/addr/cfunc/:g&
+icpc -o cfunc cfunc.cxx && ./cfunc
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ icpc -o cfunc cfunc.cxx && ./cfunc
+cat cfunc.c7
+[eijkhout@isp02 sessions]$ cat cfunc.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+void increment(int x) {
+  x += 1;
+}
+
+int main() {
+  int i;
+  i = 7;
+
+  increment(i);
+  cout << i << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ icpc -o cfunc cfunc.cxx && ./cfunc
+7
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ !cat
+cat cfunc.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+void increment(int *x) {
+  x += 1;
+}
+
+int main() {
+  int i;
+  i = 7;
+
+  increment(&i); // C style! do not do this in nice C++
+  cout << i << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ !ic
+icpc -o cfunc cfunc.cxx && ./cfunc
+7
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ icpc -o cfunc cfunc.cxx && ./cfunc
+incoming address: 0x7ffee4f2a004
+outgoing address: 0x7ffee4f2a008
+contains        : 4196608
+7
+[eijkhout@isp02 sessions]$ !cat
+cat cfunc.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+void increment(int *x) {
+  cout << "incoming address: " << x << endl;
+  x += 1;
+  cout << "outgoing address: " << x << endl;
+  cout << "contains        : " << *x << endl;
+}
+
+int main() {
+  int i;
+  i = 7;
+
+  increment(&i); // C style! do not do this in nice C++
+  cout << i << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ !cat
+cat cfunc.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+void increment(int *x) {
+  cout << "incoming address: " << x << endl;
+  *x += 1;
+  cout << "outgoing address: " << x << endl;
+  cout << "contains        : " << *x << endl;
+}
+
+int main() {
+  int i;
+  i = 7;
+
+  increment(&i); // C style! do not do this in nice C++
+  cout << i << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ !ic
+icpc -o cfunc cfunc.cxx && ./cfunc
+incoming address: 0x7ffe73f5c144
+outgoing address: 0x7ffe73f5c144
+contains        : 8
+8
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ cat cfunc.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+void increment(int *x) {
+  cout << "incoming address: " << x << endl;
+  *x += 1;
+  cout << "outgoing address: " << x << endl;
+  cout << "contains        : " << *x << endl;
+}
+
+int main() {
+  int i;
+  i = 7;
+
+  increment(&i); // C style! do not do this in nice C++
+  cout << i << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ icpc -o cswap cswap.cxx && ./cswap
+7,8
+[eijkhout@isp02 sessions]$ cat cswap.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+void swap(int *iaddr,int *jaddr) {
+  int i = *iaddr, j = *jaddr;
+
+  int temp = i;
+  i = j;
+  j = i;
+
+}
+
+int main() {
+  int i = 7, j = 8;
+
+  swap(&i,&j);
+  cout << i << "," << j << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ cat cswap.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+void swap(int *iaddr,int *jaddr) {
+  int i = *iaddr, j = *jaddr;
+
+  int temp = i;
+  i = j;
+  j = i;
+
+  // WRONG  iaddr = &i;
+  *iaddr = i;
+  *jaddr = j;
+}
+
+int main() {
+  int i = 7, j = 8;
+
+  swap(&i,&j);
+  cout << i << "," << j << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ !ic
+icpc -o cswap cswap.cxx && ./cswap
+8,8
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ !ca
+cat cswap.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+void swap(int *iaddr,int *jaddr) {
+  int i = *iaddr, j = *jaddr;
+
+  int temp = i;
+  i = j;
+  j = temp;
+
+  // WRONG  iaddr = &i;
+  *iaddr = i;
+  *jaddr = j;
+}
+
+int main() {
+  int i = 7, j = 8;
+
+  swap(&i,&j);
+  cout << i << "," << j << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ !ic
+icpc -o cswap cswap.cxx && ./cswap
+8,7
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ !cat
+cat cswap.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+void swap(int *iaddr,int *jaddr) {
+  /* THIS IS A TAD VERBOSE
+  int i = *iaddr, j = *jaddr;
+
+  int temp = i;
+  i = j;
+  j = temp;
+
+  // WRONG  iaddr = &i;
+  *iaddr = i;
+  *jaddr = j;
+  */
+
+  int temp = *iaddr;
+  *iaddr = *jaddr;
+  *jaddr = temp;
+
+}
+
+int main() {
+  int i = 7, j = 8;
+
+  swap(&i,&j);
+  cout << i << "," << j << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ !ic
+icpc -o cswap cswap.cxx && ./cswap
+8,7
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ git add cswap.cxx carray.cxx
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ cat carray.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+void set_array( double *x ) {
+  *x = 1;
+}
+
+int main() {
+
+  double x[5];
+  set_array(x);
+  cout << x[0] << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ !ic:s/cswap/carray/:g&
+icpc -o carray carray.cxx && ./carray
+1
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ !cat
+cat carray.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+void set_array( double *x, int xsize ) {
+  for (int i=0; i<xsize; i++) {
+    x[i] = 1;
+    // HIGHER KNOWLEDGE: *x++ = 1;
+  }
+}
+
+int main() {
+
+  double x[5];
+  set_array(x,5);
+  cout << x[0] << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ !ic
+icpc -o carray carray.cxx && ./carray
+1
+[eijkhout@isp02 sessions]$ fg
+emacs addr.cxx
+
+[1]+  Stopped                 emacs addr.cxx
+[eijkhout@isp02 sessions]$ !cat
+cat carray.cxx
+#include <iostream>
+using std::cout;
+using std::endl;
+
+void set_array( double *x, int xsize ) {
+  for (int i=0; i<xsize; i++) {
+    x[i] = 1;
+    // HIGHER KNOWLEDGE: *x++ = 1;
+  }
+}
+
+int main() {
+
+  double x[5];
+  set_array(x,5);
+  cout << x[3] << endl;
+
+  return 0;
+}
+[eijkhout@isp02 sessions]$ !ic
+icpc -o carray carray.cxx && ./carray
+1
