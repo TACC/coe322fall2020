@@ -73,7 +73,20 @@ public:
     pascal triangle(n); // nice and clean
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%% Very good: triangular storage
+%%%% This is the optimized solution that stores a triangle. Bonus point.
+
+class pascal {
+private:
+  int rows;
+  vector<long int>  coeffs;
+public:
+  [...]
+  long int get(int i,int j) {
+    return coeffs.at(i*(i+1)/2+j);
+  };
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Also using triangular storage.
 %%%% awkward: the `sum_of_int' is a lower level detail
 
 class pascal {
@@ -116,6 +129,17 @@ public:
       mat.push_back(col);
     }
   }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% clever way of computing the explicit formula, still wrong complexity.
+
+  long get(int r, int c){
+    if ( c == 0 || c == r)
+      return 1;
+    if (c > r/2)
+      return get(r,r-c);
+    return r*get(r-1,c-1)/c;
+  };
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Factorials, part 1/2
