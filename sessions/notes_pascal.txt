@@ -1,0 +1,174 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Good
+
+class pascal {
+private: //members
+  int n;
+  vector<vector<int> > pascal_triangle;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Abstraction please: constructing the triangle should be .....
+%%%% in the constructor
+
+int main() {
+
+  cout << "How many rows do you want your pascal triangle to have? " << endl;
+  int rows;
+  cin >> rows;
+  pascal pascal_triangle(rows);
+  int value, num1, num2;
+  for (int i=0; i<rows; i++) {
+    for (int j=0; j<rows; j++) {
+      if (j>i) {
+        value = 0;
+        pascal_triangle.set(i,j,value);
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% I can live with this
+
+int main() {
+    // Define necessary variables
+    int height;
+    int modulo;
+
+    // Take in inputs
+    cin >> height;
+
+    // Create triangle
+    Pascal tri(height);
+
+    // Run functions
+    tri.populate();
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Good design. (I would have preferred usin the ".at()" method.)
+
+class pascal {
+private:
+  int h; //height
+  vector < vector < int > > tri; //create a vector that stores the values fpor the triangle
+public:
+  pascal(int n){
+    h = n;
+    int row = 0;
+    tri = vector< vector<int> >(n, vector<int>(n));
+    tri[row][row] = 1;
+    row = 1;
+    while(row < h){
+      int col = 0;
+      while(col <= row){
+        if(col == 0 || col == row)
+          tri[row][col] = 1;
+        else
+            tri[row][col] = tri[row-1][col-1] + tri[row-1][col];
+        col++;
+      }
+      row++;
+    }
+  }
+
+  int main() {
+    pascal triangle(n); // nice and clean
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Very good: triangular storage
+%%%% awkward: the `sum_of_int' is a lower level detail
+
+class pascal {
+    private:
+        int n; //number of rows. "Height" of triangle
+        vector<int> p;
+    public:
+        pascal(int in_n) :
+            n(in_n),
+            p(vector<int>(sum_of_ints(in_n))) {
+            for(int i = 0; i < n; i++){
+                    for (int j = 0; j <= i; j++){
+                        int sum = sum_of_ints(i-1)+j;
+                        [....]
+                            p.at(sum+i) = p.at(sum-1)+p.at(sum);
+%% VLE would have preferred:
+            p.at( loc(i,j) ) = p.at( loc(i-1,j-1) ) + p.at( loc(i-1,j) )
+% and
+   int loc(int i,int j) { return sum_of_ints(i-1)+j; };
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Consider computational complexity
+
+public:
+  int fill(int r, int c){ //pascal recursive method
+    if(r < c)
+      return 0; //square matrix - so it fills the non-triangle portion with zeros
+    else if (c == 1 || c == r)
+      return 1;
+    else
+      return fill(r-1, c-1) + fill(r-1, c);
+  };
+
+  pascal(int n):  n(n){
+    for(int r = 0; r < n; r++){
+      vector<int> col(n);
+      for(int c = 0; c < n; c++){
+        col[c] = fill(r+1, c+1); //fill matrix with pascal's triangle's elements
+      }
+      mat.push_back(col);
+    }
+  }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Factorials, part 1/2
+
+  int get (int r, int c){
+    int value;
+    value = factorial(r-1) / factorial(c-1) / factorial(r-c);
+    return value;
+  };
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Factorials, part 2/2
+
+  int get (int r, int c){
+    int value;
+    value = round(round(factorial(r-1)/(factorial(c-1))/factorial(r-c)));
+    return value;
+  };
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% "It works" is no defense. This is pure C. Please don't.
+%%%% Never use "malloc".
+
+class pascal {
+private:
+  int n;
+  long long **arr; 
+
+  arr = (long long **)malloc(n * sizeof(long long *));
+  for (int i.....) {
+      arr[i] = (long long *)malloc((i + 1) * sizeof(long long));
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Yes, `new' is C++, no this is still bad programming.
+%%%% Never use `new' either.
+
+class pascal {
+private:
+  int **arr;
+  int n;
+public:
+  pascal(int rows) {
+    n = rows;
+    *arr = new int[n];
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% The student that had the "malloc":
+
+  ~pascal(){
+    free(arr);
+  }
+
+
+
+
