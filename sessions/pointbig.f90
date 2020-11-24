@@ -6,7 +6,7 @@ Program PointBig
   real,pointer :: biggest_element
 
   ! This is the original array
-  print ’(10f5.2)’,array
+  print '(10f5.2)',array
 
   ! Set a pointer to the largest element
   call SetPointer(array,biggest_element)
@@ -16,14 +16,14 @@ Program PointBig
   ! Now zero what the pointer is pointing at:
   biggest_element = 0
   ! Check that it had the right effect.
-  print ’(10f5.2)’,array
+  print '(10f5.2)',array
 
 contains
 
   subroutine SetPointer( array,bigpointer )
     implicit none
     ! Note that we do not specify the length
-    real,dimension(:),intent(in) :: array
+    real,dimension(:),target,intent(in) :: array
     real,pointer,intent(out) :: bigpointer
     ! local variables
     integer :: element,location_of_max
