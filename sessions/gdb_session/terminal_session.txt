@@ -1,0 +1,989 @@
+[eijkhout@isp02 sessions]$ git pull
+remote: Enumerating objects: 33, done.
+remote: Counting objects: 100% (30/30), done.
+remote: Compressing objects: 100% (11/11), done.
+remote: Total 23 (delta 15), reused 20 (delta 12), pack-reused 0
+Unpacking objects: 100% (23/23), done.
+From github.com:TACC/coe322fall2020
+   1c51550..4eb246d  master     -> origin/master
+Updating 1c51550..4eb246d
+Fast-forward
+ EijkhoutIntroSciProgramming-book.pdf | Bin 5983460 -> 5995227 bytes
+ lectures/15F Pointers.pdf            | Bin 568363 -> 568503 bytes
+ lectures/17 Flame.pdf                | Bin 0 -> 542691 bytes
+ sessions/gdb_session/Makefile        |  17 +++++++++++++++++
+ sessions/gdb_session/assert.cxx      |  44 ++++++++++++++++++++++++++++++++++++++++++++
+ sessions/gdb_session/hello.cxx       |  31 +++++++++++++++++++++++++++++++
+ sessions/gdb_session/root.cxx        |  42 ++++++++++++++++++++++++++++++++++++++++++
+ 7 files changed, 134 insertions(+)
+ create mode 100644 lectures/17 Flame.pdf
+ create mode 100644 sessions/gdb_session/Makefile
+ create mode 100644 sessions/gdb_session/assert.cxx
+ create mode 100644 sessions/gdb_session/hello.cxx
+ create mode 100644 sessions/gdb_session/root.cxx
+[eijkhout@isp02 sessions]$ cd gdb_session/
+[eijkhout@isp02 gdb_session]$ ls
+assert.cxx  hello.cxx  Makefile  root.cxx
+[eijkhout@isp02 gdb_session]$ make
+Makefile:15: ../Make.inc: No such file or directory
+make: *** No rule to make target `../Make.inc'.  Stop.
+[eijkhout@isp02 gdb_session]$ cat hello.cxx
+/****************************************************************
+ ****
+ **** This program source is part of
+ **** Introduction to High-performance Scientific Computing
+ **** by Victor Eijkhout
+ **** copyright Victor Eijkhout 2011-2020
+ ****
+ **** gdb example program
+ ****
+ ****************************************************************/
+
+#include <iostream>
+using std::cout;
+using std::endl;
+
+void say(int n) {
+  cout << "hello world " << n << endl;
+}
+
+int main() {
+
+  for (int i=0; i<10; i++) {
+    int ii;
+    ii = i*i;
+    ii++;
+    say(ii);
+  }
+
+  return 0;
+}
+
+[eijkhout@isp02 gdb_session]$ icpc -o hello hello.cxx
+[eijkhout@isp02 gdb_session]$ ./hello
+hello world 1
+hello world 2
+hello world 5
+hello world 10
+hello world 17
+hello world 26
+hello world 37
+hello world 50
+hello world 65
+hello world 82
+[eijkhout@isp02 gdb_session]$ gdb hello
+GNU gdb (GDB) Red Hat Enterprise Linux 7.6.1-115.el7
+Copyright (C) 2013 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-redhat-linux-gnu".
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>...
+Reading symbols from /home/eijkhout/coe322fall2020/studentrepo/sessions/gdb_session/hello...(no debugging symbols found)...done.
+(gdb) run
+Starting program: /home/eijkhout/coe322fall2020/studentrepo/sessions/gdb_session/hello
+hello world 1
+hello world 2
+hello world 5
+hello world 10
+hello world 17
+hello world 26
+hello world 37
+hello world 50
+hello world 65
+hello world 82
+[Inferior 1 (process 18041) exited normally]
+Missing separate debuginfos, use: debuginfo-install glibc-2.17-292.el7.x86_64 libgcc-4.8.5-39.el7.x86_64 libstdc++-4.8.5-39.el7.x86_64
+(gdb) list
+No symbol table is loaded.  Use the "file" command.
+(gdb) quit
+[eijkhout@isp02 gdb_session]$ # we forgot an important compiler option: "-g"
+[eijkhout@isp02 gdb_session]$ icpc -g -o hello hello.cxx
+[eijkhout@isp02 gdb_session]$ # and now we can list inside the debugger
+[eijkhout@isp02 gdb_session]$ gdb hello
+GNU gdb (GDB) Red Hat Enterprise Linux 7.6.1-115.el7
+Copyright (C) 2013 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-redhat-linux-gnu".
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>...
+Reading symbols from /home/eijkhout/coe322fall2020/studentrepo/sessions/gdb_session/hello...done.
+(gdb) list
+13    using std::cout;
+14    using std::endl;
+15
+16	void say(int n) {
+17	  cout << "hello world " << n << endl;
+18	  }
+19
+20	int main() {
+21
+22	  for (int i=0; i<10; i++) {
+(gdb)
+23	    int ii;
+24	        ii = i*i;
+25		    ii++;
+26		        say(ii);
+27			  }
+28
+29	  return 0;
+30	  }
+31
+(gdb)
+Line number 32 out of range; hello.cxx has 31 lines.
+(gdb) run
+Starting program: /home/eijkhout/coe322fall2020/studentrepo/sessions/gdb_session/hello
+hello world 1
+hello world 2
+hello world 5
+hello world 10
+hello world 17
+hello world 26
+hello world 37
+hello world 50
+hello world 65
+hello world 82
+[Inferior 1 (process 18172) exited normally]
+Missing separate debuginfos, use: debuginfo-install glibc-2.17-292.el7.x86_64 libgcc-4.8.5-39.el7.x86_64 libstdc++-4.8.5-39.el7.x86_64
+(gdb) break 22
+Breakpoint 1 at 0x400a03: file hello.cxx, line 22.
+(gdb) run
+Starting program: /home/eijkhout/coe322fall2020/studentrepo/sessions/gdb_session/hello
+
+Breakpoint 1, main () at hello.cxx:22
+22	     for (int i=0; i<10; i++) {
+(gdb) # I could do "run" but that reruns the program
+(gdb) # I can do "cont" (or "continue") to continue from here
+(gdb) cont
+Continuing.
+hello world 1
+hello world 2
+hello world 5
+hello world 10
+hello world 17
+hello world 26
+hello world 37
+hello world 50
+hello world 65
+hello world 82
+[Inferior 1 (process 18334) exited normally]
+(gdb) run
+Starting program: /home/eijkhout/coe322fall2020/studentrepo/sessions/gdb_session/hello
+
+Breakpoint 1, main () at hello.cxx:22
+22	     for (int i=0; i<10; i++) {
+(gdb) # let's go for some more detail
+(gdb) next
+24        ii = i*i;
+(gdb) # what happened to 23?
+(gdb) list
+19
+20	int main() {
+21
+22	  for (int i=0; i<10; i++) {
+23	      int ii;
+24	          ii = i*i;
+25		      ii++;
+26		          say(ii);
+27			    }
+28
+(gdb) next
+25        ii++;
+(gdb)
+26	    say(ii);
+(gdb)
+hello world 1
+24        ii = i*i;
+(gdb) list -
+14    using std::endl;
+15
+16	void say(int n) {
+17	  cout << "hello world " << n << endl;
+18	  }
+19
+20	int main() {
+21
+22	  for (int i=0; i<10; i++) {
+23	      int ii;
+(gdb) where
+#0  main () at hello.cxx:24
+(gdb) next
+25        ii++;
+(gdb) next
+26        say(ii);
+(gdb) step
+say (n=2) at hello.cxx:17
+17    cout << "hello world " << n << endl;
+(gdb) where
+#0  say (n=2) at hello.cxx:17
+#1  0x0000000000400a50 in main () at hello.cxx:26
+(gdb) # this is called a stack trace
+(gdb) list
+12    #include <iostream>
+13    using std::cout;
+14    using std::endl;
+15
+16	void say(int n) {
+17	  cout << "hello world " << n << endl;
+18	  }
+19
+20	int main() {
+21
+(gdb) step
+hello world 2
+18    }
+(gdb)
+main () at hello.cxx:24
+24       ii = i*i;
+(gdb) next
+25        ii++;
+(gdb) print i
+$1 = 2
+(gdb) print ii
+$2 = 4
+(gdb) print i+ii
+$3 = 6
+(gdb) list
+20    int main() {
+21
+22	  for (int i=0; i<10; i++) {
+23	      int ii;
+24	          ii = i*i;
+25		      ii++;
+26		          say(ii);
+27			    }
+28
+29	  return 0;
+(gdb) break 25 if ii>40
+Breakpoint 2 at 0x400a37: file hello.cxx, line 25.
+(gdb) # so now we dont' stop everytime, only when a condition is met.
+(gdb) # so continue:
+(gdb) cont
+Continuing.
+hello world 5
+hello world 10
+hello world 17
+hello world 26
+hello world 37
+
+Breakpoint 2, main () at hello.cxx:25
+25	       ii++;
+(gdb) print ii
+$4 = 49
+(gdb) print i
+$5 = 7
+(gdb) # now we know in which iteration the (supposedly) aberrant value of ii=40 happened.
+(gdb) quit
+A debugging session is active.
+
+  Inferior 1 [process 18425] will be killed.
+
+Quit anyway? (y or n) y
+[eijkhout@isp02 gdb_session]$ ls
+assert.cxx  hello  hello.cxx  Makefile  root.cxx
+[eijkhout@isp02 gdb_session]$ !ic:s/hello/root/:g&
+icpc -g -o root root.cxx
+[eijkhout@isp02 gdb_session]$ cat root.cxx
+/****************************************************************
+ ****
+ **** This program source is part of
+ **** Introduction to High-performance Scientific Computing
+ **** by Victor Eijkhout
+ **** copyright Victor Eijkhout 2011-2020
+ ****
+ **** gdb example program
+ ****
+ ****************************************************************/
+
+#include <iostream>
+using std::cout;
+using std::endl;
+#include <cmath>
+
+float root(float n)
+{
+  float r;
+  float n1 = n-1.1;
+  r = sqrt(n1);
+  return r;
+}
+
+int main() {
+  float x=9,y;
+  for (int i=0; i<20; i++) {
+    y = root(x);
+    cout << "root: " << y << endl;
+    x -= 1.1;
+  }
+
+  return 0;
+}
+
+/*
+  1. observe the NaN
+  2. use `break' or `break if' to stop when
+     you are about to take the root of a negative number
+  3. use `where' and `frame' to determine the iteration that
+     caused this.
+*/
+[eijkhout@isp02 gdb_session]$ # let's first see what this does:
+[eijkhout@isp02 gdb_session]$ ./root
+root: 2.81069
+root: 2.60768
+root: 2.38747
+root: 2.14476
+root: 1.87083
+root: 1.54919
+root: 1.14018
+root: 0.447214
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+[eijkhout@isp02 gdb_session]$ gdb root
+GNU gdb (GDB) Red Hat Enterprise Linux 7.6.1-115.el7
+Copyright (C) 2013 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-redhat-linux-gnu".
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>...
+Reading symbols from /home/eijkhout/coe322fall2020/studentrepo/sessions/gdb_session/root...done.
+(gdb) run
+Starting program: /home/eijkhout/coe322fall2020/studentrepo/sessions/gdb_session/root
+root: 2.81069
+root: 2.60768
+root: 2.38747
+root: 2.14476
+root: 1.87083
+root: 1.54919
+root: 1.14018
+root: 0.447214
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+root: -nan
+[Inferior 1 (process 19785) exited normally]
+Missing separate debuginfos, use: debuginfo-install glibc-2.17-292.el7.x86_64 libgcc-4.8.5-39.el7.x86_64 libstdc++-4.8.5-39.el7.x86_64
+(gdb) list
+17    float root(float n)
+18    {
+19      float r;
+20	  float n1 = n-1.1;
+21	    r = sqrt(n1);
+22	      return r;
+23	      }
+24
+25	int main() {
+26	  float x=9,y;
+(gdb)
+27	  for (int i=0; i<20; i++) {
+28	      y = root(x);
+29	          cout << "root: " << y << endl;
+30		      x -= 1.1;
+31		        }
+32
+33	  return 0;
+34	  }
+35
+36	/*
+(gdb) break 29
+Breakpoint 1 at 0x400ecc: file root.cxx, line 29.
+(gdb) # the strange value is printed at line 29, so we could stop there every time:
+(gdb) run
+Starting program: /home/eijkhout/coe322fall2020/studentrepo/sessions/gdb_session/root
+
+Breakpoint 1, main () at root.cxx:29
+29	       cout << "root: " << y << endl;
+(gdb) print y
+$1 = 2.81069398
+(gdb) cont
+Continuing.
+root: 2.81069
+
+Breakpoint 1, main () at root.cxx:29
+29	       cout << "root: " << y << endl;
+(gdb) print y
+$2 = 2.60768104
+(gdb) cont
+Continuing.
+root: 2.60768
+
+Breakpoint 1, main () at root.cxx:29
+29	       cout << "root: " << y << endl;
+(gdb) print y
+$3 = 2.38746738
+(gdb) # I'm getting tired of this
+(gdb) delete 1
+(gdb) break 29 if y!=y
+Breakpoint 2 at 0x400ecc: file root.cxx, line 29.
+(gdb) # this is (big trick) a break on "nan"
+(gdb) # now rerun, and it will stop at the problem
+(gdb) run
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y
+Starting program: /home/eijkhout/coe322fall2020/studentrepo/sessions/gdb_session/root
+root: 2.81069
+root: 2.60768
+root: 2.38747
+root: 2.14476
+root: 1.87083
+root: 1.54919
+root: 1.14018
+root: 0.447214
+
+Breakpoint 2, main () at root.cxx:29
+29	       cout << "root: " << y << endl;
+(gdb) print y
+$4 = -nan(0x400000)
+(gdb) # but now we know when this happens:
+(gdb) list
+24
+25	int main() {
+26	  float x=9,y;
+27	    for (int i=0; i<20; i++) {
+28	        y = root(x);
+29		    cout << "root: " << y << endl;
+30		        x -= 1.1;
+31			  }
+32
+33	  return 0;
+(gdb) print i
+$5 = 8
+(gdb) # so this happens when i==8, therefore, new breakbpoint:
+(gdb) # and y comes from "root", so we need to stop before that:
+(gdb) break 28 if i==8
+Breakpoint 3 at 0x400eaf: file root.cxx, line 28.
+(gdb) delete 2
+(gdb) # break point 2 no longer relevant, so deleted
+(gdb) run
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y
+Starting program: /home/eijkhout/coe322fall2020/studentrepo/sessions/gdb_session/root
+root: 2.81069
+root: 2.60768
+root: 2.38747
+root: 2.14476
+root: 1.87083
+root: 1.54919
+root: 1.14018
+root: 0.447214
+
+Breakpoint 3, main () at root.cxx:28
+28	       y = root(x);
+(gdb) print i
+$6 = 8
+(gdb) print x
+$7 = 0.200000554
+(gdb) step
+root (n=0.200000554) at root.cxx:20
+20     float n1 = n-1.1;
+(gdb) # we are now inside the "root" routine
+(gdb) list
+15    #include <cmath>
+16
+17	float root(float n)
+18	{
+19	  float r;
+20	    float n1 = n-1.1;
+21	      r = sqrt(n1);
+22	        return r;
+23		}
+24
+(gdb) print n
+$8 = 0.200000554
+(gdb) next
+21      r = sqrt(n1);
+(gdb) print n1
+$9 = -0.89999944
+(gdb) quit
+A debugging session is active.
+
+  Inferior 1 [process 20368] will be killed.
+
+Quit anyway? (y or n) y
+[eijkhout@isp02 gdb_session]$ # program "root" was wrong in an obvious way, but
+[eijkhout@isp02 gdb_session]$ # what if it had been more sublte?
+[eijkhout@isp02 gdb_session]$ cat assert.cxx
+/****************************************************************
+ ****
+ **** This program source is part of
+ **** Introduction to High-performance Scientific Computing
+ **** by Victor Eijkhout
+ **** copyright Victor Eijkhout 2011-2020
+ ****
+ **** gdb example program
+ ****
+ ****************************************************************/
+
+#include <iostream>
+using std::cout;
+using std::endl;
+#include <cmath>
+#include <cassert>
+
+float root(float n)
+{
+  float r;
+  float n1 = n-1.1;
+  assert(n1>=0);
+  r = sqrt(n1);
+  return r;
+}
+
+int main() {
+  float x=9,y;
+  for (int i=0; i<20; i++) {
+    y = root(x);
+    cout << "root: " << y << endl;
+    x -= 1.1;
+  }
+
+  return 0;
+}
+
+/*
+/****************************************************************
+ ****
+ **** This file belongs with the course
+ **** Introduction to Scientific Programming in C++/Fortran2003
+ **** copyright 2019 Victor Eijkhout eijkhout@tacc.utexas.edu
+ ****
+ **** route.cxx : doing a single salesman trip
+ ****
+ ****************************************************************/
+
+#include <iostream>
+using std::cerr;
+using std::cin;
+using std::cout;
+using std::endl;
+
+#include <algorithm>
+using std::any_of;
+
+#include <random>
+using std::rand;
+
+#include <limits>
+using std::numeric_limits;
+
+#include <sstream>
+using std::stringstream;
+
+#include <string>
+using std::string;
+
+#include <vector>
+using std::vector;
+
+#include <optional>
+using std::optional;
+
+#include <tuple>
+using std::tuple;
+
+#include <cassert>
+#include <cmath>
+#define CLOSE(x,y) x==y || ( x!=0 && abs( (1.*x-y)/x )<1.e-5 ) || ( y!=0 && abs( (1.*x-y)/y )<1.e-5 )
+
+//answersnippet amazonaddressdef
+class Address {
+private:
+  int icoord{-1},jcoord{-1};
+  bool fixed{false};
+public:
+  Address(int i,int j=0)
+    : icoord(i),jcoord(j) {};
+  float distance(Address other) {
+    int delta_i = icoord-other.icoord,
+      delta_j = jcoord-other.jcoord;
+    return sqrt( delta_i*delta_i + delta_j*delta_j );
+  };
+  bool operator==( const Address &other ) const {
+    return icoord==other.icoord && jcoord==other.jcoord;
+  };
+  //answersnippet end
+  void fix(bool fixval=true) { fixed = fixval; };
+  auto is_fixed() const { return fixed; };
+  string as_string() {
+    stringstream h; h << "(" << icoord << "," << jcoord << ")";
+    return h.str();
+  };
+};
+
+class AddressList {
+protected:
+  vector<Address> addresses;
+public:
+  AddressList() {};
+  AddressList( vector<Address> v ) : addresses(v) {};
+  AddressList( vector<Address> v1,vector<Address> v2,vector<Address> v3 )
+    : addresses(v1) {
+    addresses.insert(addresses.end(),v2.begin(),v2.end());
+    addresses.insert(addresses.end(),v3.begin(),v3.end());
+  };
+  void add_address( Address h ) {
+    addresses.push_back(h);
+  };
+  auto get_addresses() { return addresses; };
+  auto size() const { return addresses.size(); };
+  auto &at(int i) { return addresses.at(i); };
+  auto get(int i) const { return addresses.at(i); };
+  const Address &operator[](int i) { return addresses.at(i); };
+  void erase(int i) { addresses.erase( addresses.begin()+i); };
+  auto get_and_erase(int i) {
+    auto return_address = get(i); erase(i); return return_address;
+  };
+  void reverse(int first,int last) {
+    auto begin_loc = addresses.begin(); begin_loc += first;
+    auto end_loc = addresses.begin(); end_loc += last;
+    std::reverse(begin_loc,end_loc);
+  };
+  auto length() const { auto sum = 0.f;
+    for (int i=0; i<size()-1; i++)
+      sum += get(i).distance( get(i+1) );
+    return sum;
+  };
+  auto average_distance() const {
+    if (size()==1)
+      return numeric_limits<float>::max();
+    else return length()/(size()-1);
+  };
+  optional<int> try_find_next_address( AddressList route_so_far,bool take_any=true ) const {
+    if (addresses.size()>0) {
+      if (route_so_far.size()==0) {
+        return 0;
+      } else {
+        //answersnippet maybeclosest
+        auto we_are_here = route_so_far.get( route_so_far.size()-1 );
+        int ind = index_of_house_closest_to(we_are_here);
+        if (take_any) {
+          return ind;
+        } else {
+          auto dist = we_are_here.distance(get(ind));
+          auto avg_dist = route_so_far.average_distance();
+          if (dist<=1.4*avg_dist)
+            return ind;
+          else return {};
+        }
+        //answersnippet end
+      }
+    } else return {};
+  };
+  AddressList greedy_route( bool any_address_will_do=true ) const {
+    // start with an empty list, containing only the first address
+    AddressList all( addresses );
+    AddressList route;
+    // while not empty:
+    // .. find the closest to the current house,
+    // .. add to route, and delete from list-to-process
+    for (;;) {
+      optional<int> possible_next_house;
+      if (route.size()==0)
+        possible_next_house = 0;
+      else
+        possible_next_house = all.try_find_next_address(route,any_address_will_do);
+      if (!possible_next_house) break;
+      else {
+        int index_of_closest_house =  possible_next_house.value();
+        // add it to the route, remove from list
+        route.add_address( all.get_and_erase(index_of_closest_house) );
+      }
+    }
+    return route;
+  };
+  int index_of_house_closest_to( const Address &we_are_here ) const {
+    auto index = 0;
+    auto shortest_distance = get(index).distance(we_are_here);
+    // find the closest address
+    for (int house_index=1; house_index<addresses.size(); house_index++) {
+      // what is the distance to house_index?
+      auto dist = get(house_index).distance(we_are_here);
+      // if more, remember this house
+      if (dist<shortest_distance) {
+        shortest_distance = dist; index = house_index;
+      }
+    }
+    return index;
+  };
+  string as_string() {
+    stringstream a;
+    for ( auto r : addresses )
+      a << " " << r.as_string();
+    return a.str();
+  }
+};
+
+class Route : public AddressList {
+public:
+  Route() {
+    AddressList::add_address( Address(0,0) );
+  };
+  Route( AddressList list ) : AddressList( list.get_addresses() ) {
+    //AddressList::add_address( Address(0,0) );
+    addresses.insert(addresses.begin(),Address(0,0));
+    addresses.insert(addresses.end(),Address(0,0));
+  };
+  Route( vector<Address> address_list ) : AddressList( address_list ) {
+    addresses.insert(addresses.begin(),Address(0,0));
+    addresses.insert(addresses.end(),Address(0,0));
+  };
+  Route( vector<Address> one,vector<Address> two,vector<Address> three )
+    : AddressList( one,two,three ) {
+    addresses.insert(addresses.begin(),Address(0,0));
+    addresses.insert(addresses.end(),Address(0,0));
+  };
+  void add_address( Address h ) {
+    if (size()==0) {
+      cerr << "Size of route can not be zero\n"; throw(1); }
+    if (size()==1) {
+      AddressList::add_address( h );
+      AddressList::add_address( Address(0,0) );
+    } else {
+      // we already have the depot as start & end point, insert the new address
+      addresses.insert(--addresses.end(),h);
+    }
+  };
+  void fix(int i) { addresses.at(i).fix(); };
+  auto has_fix(int first,int last) {
+    return any_of(addresses.begin()+first,addresses.begin()+last,
+                  [] (const Address &a ) -> bool { return a.is_fixed(); }
+                  );
+  };
+  void append( Route other ) {
+    addresses.insert(--addresses.end(),++other.addresses.begin(),--other.addresses.end());
+  };
+  auto greedy_route( bool any_address_will_do=true ) {
+    auto first = addresses.begin(), last = addresses.end()-1;
+    AddressList before_returning( vector<Address>(first,last) );
+    auto greedy = before_returning.greedy_route(); greedy.erase(0);
+    return Route( greedy );
+  };
+  auto reverse(int f,int l) {
+    if (f<0 || l>=size()) {
+      cerr << "Invalid indices to reverse" << "\n"; throw(1); }
+    AddressList::reverse(f,l);
+  };
+  auto cut_in_three(int first,int last) const {
+    auto
+      one = vector<Address>( addresses.begin()+1,addresses.begin()+first ),
+      two = vector<Address>( addresses.begin()+first,addresses.begin()+last ),
+      three = vector<Address>( addresses.begin()+last,addresses.end()-1 );
+    return tuple<vector<Address>,vector<Address>,vector<Address>>(one,two,three);
+  };
+  auto opt2(int first, int last) const {
+    if (first==0 or last==size()) {
+      cerr << "opt2 should not affect depot\n"; throw(1); }
+    auto [one,two,three] = cut_in_three(first,last);
+    std::reverse(two.begin(),two.end());
+    Route opt_list(one,two,three);
+    assert(opt_list.size()==size());
+    return opt_list;
+  };
+  auto TSP() const {
+    Route tsp(*this); auto cur_length=tsp.length();
+    assert(tsp.size()==size());
+    //cerr << "Start with length " << cur_length << "\n";
+    for (int first=1; first<size()-2; first++) {
+      for (int last=size()-2; last>first; last--) {
+        auto tmp = tsp.opt2(first,last); auto tmp_length = tmp.length();
+        if (tmp_length<cur_length) {
+          //cerr << "down to " << tmp_length << "\n";
+          tsp = tmp;
+          assert(tsp.size()==size());
+          cur_length = tmp_length;
+        }
+      }
+    }
+    return tsp;
+  };
+  auto opt2_lr(Route other,int first, int last) const {
+    auto len = last-first;
+    auto sum_size = size()+other.size();
+    Route
+      save_me(*this),save_other(other);
+    auto
+      my_length = save_me.length(), other_length = save_other.length();
+    if (first>addresses.size() || last>addresses.size()) {
+      cerr << first << "," << last << " out of bounds\n";
+      throw(1); }
+    auto [one,two,three] = cut_in_three(first,last);
+    auto two_r = two; std::reverse(two_r.begin(),two_r.end());
+    for (int other_first=1; other_first<other.size()-2-len; other_first++) {
+      auto other_last = other_first+len;
+      if (other.has_fix(other_first,other_last))
+        continue;
+      if (other_first>other.addresses.size() || other_last>other.addresses.size()) {
+        cerr << other_first << "," << other_last << " out of bounds\n";
+        throw(1); }
+      auto [one_prime,two_prime,three_prime] = other.cut_in_three(other_first,other_last);
+      auto two_prime_r = two_prime; std::reverse(two_prime_r.begin(),two_prime_r.end());
+
+      Route opt_me,
+        opt_me_f(one,two_prime,three),
+        opt_me_r(one,two_prime_r,three);
+      if (opt_me_f.length()<opt_me_r.length())
+        opt_me = opt_me_f;
+      else opt_me = opt_me_r;
+      assert( opt_me.at(0)==Address(0,0) );
+      assert( opt_me.at(opt_me.size()-1)==Address(0,0) );
+
+      Route opt_other,
+        opt_other_f(one_prime,two,three_prime),
+        opt_other_r(one_prime,two_r,three_prime);
+      if (opt_other_f.length()<opt_other_r.length())
+        opt_other = opt_other_f;
+      else opt_other = opt_other_r;
+
+      if (opt_me.length()+opt_other.length()<my_length+other_length) {
+        save_me = opt_me; save_other = opt_other;
+        auto new_sum_size = save_me.size()+save_other.size();
+        if (new_sum_size!=sum_size) {
+          cerr << "new sizes add up to " << new_sum_size
+               << "; should be " << sum_size << "\n";
+          throw(2);
+        }
+        my_length = save_me.length(); other_length = save_other.length();
+        //cerr << "down to " << my_length << "," << other_length << "\n";
+      }
+    }
+    return tuple<Route,Route>(save_me,save_other);
+  };
+};
+
+auto TSP2( const Route &r1,const Route &r2, bool trace=false ) {
+  Route tsp1(r1), tsp2(r2);
+  auto
+    cur_length_me = tsp1.length(),
+    cur_length_other = tsp2.length();
+    }
+    return tuple<Route,Route>(save_me,save_other);
+  };
+};
+
+auto TSP2( const Route &r1,const Route &r2, bool trace=false ) {
+  Route tsp1(r1), tsp2(r2);
+  auto
+    cur_length_me = tsp1.length(),
+    cur_length_other = tsp2.length();
+  if (trace)
+    cerr << "start with " << cur_length_me << "," << cur_length_other << "\n";
+  for (int ipass=0; ipass<5; ipass++) {
+    if (trace)
+      cerr << "Pass " << ipass << "\n";
+    for (int first=1; first<tsp1.size()-1; first++) {
+      for (int last=tsp1.size()-1; last>first; last--) {
+        if (tsp1.has_fix(first,last)) {
+          // if (trace)
+          //   cerr << "skipping segment " << first << "--" << last << "\n";
+          continue;
+        }
+        auto [tmp_me,tmp_other] = tsp1.opt2_lr(tsp2,first,last);
+        auto tmp_length_me = tmp_me.length(),
+          tmp_length_other = tmp_other.length();
+        if (tmp_length_me<cur_length_me && tmp_length_other<cur_length_other) {
+          tsp1 = tmp_me; tsp2 = tmp_other;
+          cur_length_me = tsp1.length(); cur_length_other = tsp2.length();
+          if (trace)
+            cerr << ".. down to " << cur_length_me << "," << cur_length_other << "\n";
+        }
+      }
+    }
+  }
+  return tuple<Route,Route>(tsp1,tsp2);
+};
+
+        auto [tmp_me,tmp_other] = tsp1.opt2_lr(tsp2,first,last);
+        auto tmp_length_me = tmp_me.length(),
+          tmp_length_other = tmp_other.length();
+        if (tmp_length_me<cur_length_me && tmp_length_other<cur_length_other) {
+          tsp1 = tmp_me; tsp2 = tmp_other;
+          cur_length_me = tsp1.length(); cur_length_other = tsp2.length();
+          if (trace)
+            cerr << ".. down to " << cur_length_me << "," << cur_length_other << "\n";
+        }
+      }
+    }
+  }
+  return tuple<Route,Route>(tsp1,tsp2);
+};
+
+int main() {
+
+  cerr << "Address" << "\n";
+  {
+    //codesnippet amazonaddressuse
+    Address one(1.,1.),
+      two(2.,2.);
+    cerr << "Distance: "
+         << one.distance(two)
+         << "\n";
+    //codesnippet end
+  }
+  cerr << ".. address" << "\n";
+
+  {
+    AddressList deliveries;
+    deliveries.add_address( Address(2) );
+    deliveries.add_address( Address(1) );
+    deliveries.add_address( Address(3) );
+
+    Address depot(0,0);
+    auto dist = depot.distance( deliveries[0] );
+  auto opt2_lr(Route other,int first, int last) const {
+    auto len = last-first;
+    auto sum_size = size()+other.size();
+    Route
+      save_me(*this),save_other(other);
+    auto
+      my_length = save_me.length(), other_length = save_other.length();
+    if (first>addresses.size() || last>addresses.size()) {
+      cerr << first << "," << last << " out of bounds\n";
+      throw(1); }
+    auto [one,two,three] = cut_in_three(first,last);
+    auto two_r = two; std::reverse(two_r.begin(),two_r.end());
+    for (int other_first=1; other_first<other.size()-2-len; other_first++) {
+      auto other_last = other_first+len;
+  1. observe the NaN
+  2. use `break' or `break if' to stop when
+     you are about to take the root of a negative number
+  3. use `where' and `frame' to determine the iteration that
+     caused this.
+*/
+[eijkhout@isp02 gdb_session]$ !ic:s/root/assert/:g&
+icpc -g -o assert assert.cxx
+[eijkhout@isp02 gdb_session]$ ./assert
+root: 2.81069
+root: 2.60768
+root: 2.38747
+root: 2.14476
+root: 1.87083
+root: 1.54919
+root: 1.14018
+root: 0.447214
+assert: assert.cxx:22: float root(float): Assertion `n1>=0' failed.
+Aborted (core dumped)
